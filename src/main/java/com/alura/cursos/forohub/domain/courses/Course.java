@@ -20,8 +20,15 @@ public class Course {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
   private String name;
+
+  @Column(name = "category")
+  @Enumerated(EnumType.STRING)
   private Category category;
-  @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+  @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<Topic> topics;
+
+  private Boolean isDeleted;
 }

@@ -10,9 +10,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
-@Table(name = "topic")
+@Table(name = "topics")
 @Entity(name = "Topic")
 @Getter
 @NoArgsConstructor
@@ -23,16 +24,28 @@ public class Topic {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
   private String title;
+
   private String message;
+
   private LocalDateTime dateCreation;
+
+  @Column(name = "status")
   @Enumerated(EnumType.STRING)
   private TopicStatus status;
-  @ManyToOne
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id")
   private User user;
-  @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  private List<Answer> answers;
-  @ManyToOne
+
+  @OneToMany(mappedBy = "topics", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  private List<Answer> answers = new ArrayList<>();
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "course_id")
   private Course course;
+
+  private Boolean isDeleted;
 
 }

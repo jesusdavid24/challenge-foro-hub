@@ -20,10 +20,18 @@ public class Answer {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
   private String message;
-  private boolean solution;
-  @ManyToOne
+
+  private Boolean solved;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "topic_id")
   private Topic topics;
-  @ManyToOne
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id")
   private User user;
+
+  private Boolean isDeleted;
 }
