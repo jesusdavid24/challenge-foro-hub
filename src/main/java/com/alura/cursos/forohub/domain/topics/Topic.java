@@ -47,5 +47,18 @@ public class Topic {
   private Course course;
 
   private Boolean isDeleted;
-
+  public Topic(
+    String title,
+    String message,
+    User user,
+    Course course)
+  {
+    this.title = title;
+    this.message = message;
+    this.dateCreation = LocalDateTime.now();
+    this.status = TopicStatus.UNANSWERED;
+    this.user = user;
+    this.course = course;
+    this.isDeleted = false;
+  }
 }

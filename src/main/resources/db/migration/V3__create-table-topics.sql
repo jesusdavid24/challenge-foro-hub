@@ -2,7 +2,7 @@ create TABLE topics(
     id bigint not null auto_increment,
     title varchar(100) not null,
     message varchar(500) not null,
-    dateCreation datetime not null,
+    date_creation datetime not null,
     status varchar(100),
     user_id bigint not null,
     course_id bigint not null,
