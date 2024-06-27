@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import com.alura.cursos.forohub.infra.errors.IntegrityValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -99,7 +98,7 @@ public class TopicService {
 
   public void deletedTopic(Long id) {
     Topic topic = topicRepository.findById(id)
-      .orElseThrow(() -> new IntegrityValidation("Topic not found with id: " + id));
+      .orElseThrow(() -> new IntegrityValidation("Topic not found with id"));
 
     topic.deletedTopic();
     topicRepository.save(topic);
