@@ -70,4 +70,6 @@ public class Topic {
       this.message = data.message();
     }
   }
+
+  public void deletedTopic() {this.isDeleted = true;}
 }

@@ -27,11 +27,11 @@ public class TopicService {
 
   public DataAnswerTopic createTopic(DataCreateTopic dataCreateTopic) {
 
-    if (dataCreateTopic.idUser() != null && !userRepository.findById(dataCreateTopic.idUser()).isPresent()) {
+    if (!userRepository.findById(dataCreateTopic.idUser()).isPresent()) {
       throw new IntegrityValidation("id user not found");
     }
 
-    if (dataCreateTopic.idCourse() != null && !courseRepository.findById(dataCreateTopic.idCourse()).isPresent()) {
+    if (!courseRepository.findById(dataCreateTopic.idCourse()).isPresent()) {
       throw new IntegrityValidation("id course not found");
     }
 
@@ -87,7 +87,7 @@ public class TopicService {
   }
 
   public DataAnswerTopic updateTopic(DataAccurateTopic dataAccurateTopic) {
-    if (dataAccurateTopic.id() != null && !topicRepository.findById(dataAccurateTopic.id()).isPresent()) {
+    if (!topicRepository.findById(dataAccurateTopic.id()).isPresent()) {
       throw new IntegrityValidation("id user not found");
     }
 
@@ -95,6 +95,14 @@ public class TopicService {
     topic.putData(dataAccurateTopic);
 
     return new DataAnswerTopic(topic);
+  }
+
+  public void deletedTopic(Long id) {
+    Topic topic = topicRepository.findById(id)
+      .orElseThrow(() -> new IntegrityValidation("Topic not found with id: " + id));
+
+    topic.deletedTopic();
+    topicRepository.save(topic);
   }
 }
 

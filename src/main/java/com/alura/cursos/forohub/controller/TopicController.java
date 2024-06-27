@@ -61,6 +61,12 @@ public class TopicController {
     return ResponseEntity.ok(topic);
   }
 
+  @DeleteMapping("/{id}")
+  public ResponseEntity deletedTopic(@PathVariable Long id) {
+    service.deletedTopic(id);
+    return ResponseEntity.noContent().build();
+  }
+
   @GetMapping("/{id}")
   @Transactional
   public ResponseEntity<DataAnswerTopic> detailsTopic(@PathVariable Long id) {
