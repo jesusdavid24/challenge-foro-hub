@@ -2,12 +2,17 @@ package com.alura.cursos.forohub.domain.topics;
 
 import com.alura.cursos.forohub.domain.courses.CourseRepository;
 import com.alura.cursos.forohub.domain.users.UserRepository;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import com.alura.cursos.forohub.infra.errors.IntegrityValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 @Service
 public class TopicService {
@@ -48,12 +53,48 @@ public class TopicService {
     return new DataAnswerTopic(topic);
   }
 
-  public Page<DataListTopic> getTopics(
-    @PageableDefault(size = 10, sort = "dateCreation" )
-    Pageable pageable
-  ) {
+  public Page<DataListTopic> getTopics(Pageable pageable) {
     Page<Topic> topicPage = topicRepository.findByIsDeletedFalse(pageable);
     return topicPage.map(DataListTopic::new);
+  }
+
+  public Page<DataListTopic> getTopicsByCourseNameAndDateCreation(String courseName, String year, Pageable pageable) {
+    var course = courseRepository.findByName(courseName);
+    if (course == null) {
+      throw new IntegrityValidation("Course does not exist");
+    }
+
+    LocalDateTime startDate;
+    try {
+      int yearNumber = Integer.parseInt(year);
+      startDate = LocalDateTime.of(yearNumber, 1, 1, 0, 0);
+    } catch (NumberFormatException e) {
+      throw new IntegrityValidation("Invalid year format");
+    }
+
+    var topics = topicRepository.findByCourseAndDateCreationAfter(course, startDate, pageable);
+
+    var dataListTopics = topics.getContent().stream()
+      .map(DataListTopic::new)
+      .collect(Collectors.toList());
+
+    return new PageImpl<>(dataListTopics, pageable, topics.getTotalElements());
+  }
+
+  public DataAnswerTopic detailsTopic(@PathVariable Long id) {
+    Topic topic = topicRepository.getReferenceById(id);
+    return new DataAnswerTopic(topic);
+  }
+
+  public DataAnswerTopic updateTopic(DataAccurateTopic dataAccurateTopic) {
+    if (dataAccurateTopic.id() != null && !topicRepository.findById(dataAccurateTopic.id()).isPresent()) {
+      throw new IntegrityValidation("id user not found");
+    }
+
+    Topic topic = topicRepository.getReferenceById(dataAccurateTopic.id());
+    topic.putData(dataAccurateTopic);
+
+    return new DataAnswerTopic(topic);
   }
 }
 

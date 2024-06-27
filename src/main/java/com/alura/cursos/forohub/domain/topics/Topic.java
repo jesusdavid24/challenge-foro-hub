@@ -61,4 +61,13 @@ public class Topic {
     this.course = course;
     this.isDeleted = false;
   }
+
+  public void putData(DataAccurateTopic data) {
+    if (data.title() != null) {
+      this.title = data.title();
+    }
+    if (data.message() != null) {
+      this.message = data.message();
+    }
+  }
 }
