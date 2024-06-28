@@ -62,7 +62,7 @@ public class Topic {
     this.isDeleted = false;
   }
 
-  public void putData(DataAccurateTopic data) {
+  public void putData(DataUpdateTopic data) {
     if (data.title() != null) {
       this.title = data.title();
     }

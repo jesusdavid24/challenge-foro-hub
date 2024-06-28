@@ -89,13 +89,13 @@ public class TopicService {
     return new DataAnswerTopic(topic);
   }
 
-  public DataAnswerTopic updateTopic(DataAccurateTopic dataAccurateTopic) {
-    if (!topicRepository.findById(dataAccurateTopic.id()).isPresent()) {
-      throw new IntegrityValidation("id user not found");
+  public DataAnswerTopic updateTopic(DataUpdateTopic dataUpdateTopic) {
+    if (!topicRepository.findById(dataUpdateTopic.id()).isPresent()) {
+      throw new IntegrityValidation("id topic not found");
     }
 
-    Topic topic = topicRepository.getReferenceById(dataAccurateTopic.id());
-    topic.putData(dataAccurateTopic);
+    Topic topic = topicRepository.getReferenceById(dataUpdateTopic.id());
+    topic.putData(dataUpdateTopic);
 
     return new DataAnswerTopic(topic);
   }

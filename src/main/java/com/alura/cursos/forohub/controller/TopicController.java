@@ -56,7 +56,7 @@ public class TopicController {
 
   @PutMapping
   @Transactional
-  public ResponseEntity<DataAnswerTopic> updateTopic(@RequestBody @Valid DataAccurateTopic dataAccurateTopic) {
+  public ResponseEntity<DataAnswerTopic> updateTopic(@RequestBody @Valid DataUpdateTopic dataAccurateTopic) {
     var topic = service.updateTopic(dataAccurateTopic);
     return ResponseEntity.ok(topic);
   }

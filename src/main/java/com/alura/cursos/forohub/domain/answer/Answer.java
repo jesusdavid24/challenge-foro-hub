@@ -8,6 +8,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 
 @Table(name = "answers")
 @Entity(name = "Answer")
@@ -25,6 +27,8 @@ public class Answer {
 
   private Boolean solved;
 
+  private LocalDateTime dateCreation;
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "topic_id")
   private Topic topics;
@@ -38,8 +42,18 @@ public class Answer {
   public Answer(String message, Boolean solved, Topic topics, User user) {
     this.message = message;
     this.solved = solved != null ? solved : false;
+    this.dateCreation = LocalDateTime.now();
     this.topics = topics;
     this.user = user;
     this.isDeleted = false;
   }
+
+  public void putData(DataUpdateAnswer data) {
+    if (data.message() != null) {
+      this.message = data.message();
+      this.dateCreation = LocalDateTime.now();
+    }
+  }
+
+  public void deletedAnswer() {this.isDeleted = true;}
 }
