@@ -18,7 +18,7 @@ public class UserService {
 
     var user = new User(
       dataRecordsUsers.name(),
-      dataRecordsUsers.name(),
+      dataRecordsUsers.email(),
       hashedPassword
     );
 

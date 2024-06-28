@@ -1,6 +1,6 @@
 package com.alura.cursos.forohub.domain.topics;
 
-import com.alura.cursos.forohub.domain.anwer.Answer;
+import com.alura.cursos.forohub.domain.answer.Answer;
 import com.alura.cursos.forohub.domain.courses.Course;
 import com.alura.cursos.forohub.domain.users.User;
 import jakarta.persistence.*;

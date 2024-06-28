@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 public interface TopicRepository extends JpaRepository<Topic, Long> {
-  Optional<Topic> findByTitleAndMessage(String title, String message);
+  Optional<Topic> findByTitle(String title);
+  Optional<Topic> findByMessage(String message);
   Page<Topic> findByIsDeletedFalse(Pageable pageable);
   Page<Topic> findByCourseAndDateCreationAfter(Course course, LocalDateTime dateCreation, Pageable pageable);
 }

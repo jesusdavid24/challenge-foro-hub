@@ -34,8 +34,12 @@ public class TopicService {
       throw new IntegrityValidation("id course not found");
     }
 
-    if (topicRepository.findByTitleAndMessage(dataCreateTopic.title(), dataCreateTopic.message()).isPresent()) {
-      throw new IntegrityValidation("There already exists a topic with the same title and message");
+    if (topicRepository.findByTitle(dataCreateTopic.title()).isPresent()) {
+      throw new IntegrityValidation("There already exists a topic with the same title");
+    }
+
+    if (topicRepository.findByMessage(dataCreateTopic.message()).isPresent()) {
+      throw new IntegrityValidation("There already exists a topic with the same message");
     }
 
     var user = userRepository.findById(dataCreateTopic.idUser()).get();

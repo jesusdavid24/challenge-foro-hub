@@ -1,4 +1,4 @@
-package com.alura.cursos.forohub.domain.anwer;
+package com.alura.cursos.forohub.domain.answer;
 
 import com.alura.cursos.forohub.domain.topics.Topic;
 import com.alura.cursos.forohub.domain.users.User;
@@ -34,4 +34,12 @@ public class Answer {
   private User user;
 
   private Boolean isDeleted;
+
+  public Answer(String message, Boolean solved, Topic topics, User user) {
+    this.message = message;
+    this.solved = solved != null ? solved : false;
+    this.topics = topics;
+    this.user = user;
+    this.isDeleted = false;
+  }
 }
