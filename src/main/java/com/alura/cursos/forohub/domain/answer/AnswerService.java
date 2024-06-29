@@ -1,6 +1,7 @@
 package com.alura.cursos.forohub.domain.answer;
 
 import com.alura.cursos.forohub.domain.topics.TopicRepository;
+import com.alura.cursos.forohub.domain.topics.TopicStatus;
 import com.alura.cursos.forohub.domain.users.UserRepository;
 import com.alura.cursos.forohub.infra.errors.IntegrityValidation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +41,11 @@ public class AnswerService {
       topic,
       user
     );
-
     answerRepository.save(answer);
+
+    topic.setStatus(TopicStatus.ANSWERED);
+    topicRepository.save(topic);
+
     return new DataAnswer(answer);
   }
 

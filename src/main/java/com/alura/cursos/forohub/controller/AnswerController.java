@@ -1,6 +1,7 @@
 package com.alura.cursos.forohub.controller;
 
 import com.alura.cursos.forohub.domain.answer.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 
 @RestController
+@SecurityRequirement(name = "bearer-key")
 @RequestMapping("/answer")
 public class AnswerController {
 

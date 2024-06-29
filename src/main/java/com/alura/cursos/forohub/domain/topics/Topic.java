@@ -62,6 +62,10 @@ public class Topic {
     this.isDeleted = false;
   }
 
+  public void setStatus(TopicStatus status) {
+    this.status = status;
+  }
+
   public void putData(DataUpdateTopic data) {
     if (data.title() != null) {
       this.title = data.title();
