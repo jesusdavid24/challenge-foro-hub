@@ -1,6 +1,11 @@
 package com.alura.cursos.forohub.controller;
 
 import com.alura.cursos.forohub.domain.answer.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +27,20 @@ public class AnswerController {
   @Autowired
   private AnswerService service;
 
+  @Operation(
+    summary = "Create a new answer",
+    description = "This endpoint allows users to create a new answer in the forum.",
+    requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+      content = @Content(
+        mediaType = "application/json",
+        schema = @Schema(implementation = DataCreateAnswer.class)
+      )
+    ),
+    responses = {
+      @ApiResponse(responseCode = "201", description = "Answer created successfully"),
+      @ApiResponse(responseCode = "400", description = "Invalid input data")
+    }
+  )
   @PostMapping
   @Transactional
   public ResponseEntity<DataAnswer> createAnswer(
@@ -34,31 +53,48 @@ public class AnswerController {
     return ResponseEntity.created(url).body(response);
   }
 
+  @Operation(
+    summary = "List answers",
+    description = "This endpoint allows users to list all answers in the forum."
+  )
   @GetMapping
   public ResponseEntity<Page<DataListAnswer>> listAnswer(
+    @Parameter(description = "The page number to retrieve")
     @PageableDefault(size = 10, sort = "dateCreation")
     Pageable pageable
   ) {
     Page<DataListAnswer> dataListAnswers = service.getAnswer(pageable);
     return ResponseEntity.ok(dataListAnswers);
   }
+
+  @Operation(
+    summary = "Update an answer",
+    description = "This endpoint allows users to update an existing answer.",
+    requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+      content = @Content(
+        mediaType = "application/json",
+        schema = @Schema(implementation = DataUpdateAnswer.class)
+      )
+    ),
+    responses = {
+      @ApiResponse(responseCode = "200", description = "Answer updated successfully"),
+      @ApiResponse(responseCode = "400", description = "Invalid input data")
+    }
+  )
   @PutMapping
   @Transactional
-  public ResponseEntity<DataAnswer> udpateAnswer(@RequestBody @Valid DataUpdateAnswer dataUpdateAnswer) {
+  public ResponseEntity<DataAnswer> updateAnswer(@RequestBody @Valid DataUpdateAnswer dataUpdateAnswer) {
     var answer = service.updateAnswer(dataUpdateAnswer);
     return ResponseEntity.ok(answer);
   }
 
+  @Operation(
+    summary = "Delete an answer",
+    description = "This endpoint allows users to delete an existing answer."
+  )
   @DeleteMapping("/{id}")
   public ResponseEntity deletedAnswer(@PathVariable Long id) {
     service.deletedAnswer(id);
     return ResponseEntity.noContent().build();
   }
-  @GetMapping("/{id}")
-  @Transactional
-  public ResponseEntity<DataAnswer> detailsAnswer(@PathVariable Long id) {
-    DataAnswer dataAnswer = service.detailsAnswer(id);
-    return ResponseEntity.ok(dataAnswer);
-  }
-
 }
